@@ -1,0 +1,7 @@
+.star::after {
+  content: ', ';
+}
+
+.star:last-child:after {
+  content: '';
+}

@@ -1,56 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilmsData } from '../../store/selectors/films';
+import { getFilms } from '../../store/actions/films';
+import { dumpFilm } from '../../utils/dumpFilms';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-
-const stars = [
-  'Mel Brooks',
-  'Clevon Little',
-  'Harvey Korman',
-  'Gene Wilder',
-  'Slim Pickens',
-  'Madeline Kahn',
-];
-
-const data = [
-  {
-    id: '1',
-    key: '1',
-    name: 'John Brown',
-    releaseDate: 32,
-    format: 'VHS',
-    stars: stars.map((star) => <span>{star}, </span>),
-  },
-  {
-    id: '2',
-    key: '2',
-    name: 'Joe Black',
-    releaseDate: 32,
-    format: 'VHS',
-    stars: stars.map((star) => <span>{star}, </span>),
-  },
-  {
-    id: '3',
-    key: '3',
-    name: 'Jim Green',
-    releaseDate: 32,
-    format: 'VHS',
-    stars: stars.map((star) => <span>{star}, </span>),
-  },
-  {
-    id: '4',
-    key: '4',
-    name: 'Jim Red',
-    releaseDate: 32,
-    format: 'VHS',
-    stars: stars.map((star) => <span>{star}, </span>),
-  },
-];
+import './styles.scss'
 
 const Main = () => {
+  const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const { films, loading } = useSelector(getFilmsData);
+  const dumpData = films.map(item => dumpFilm(item));
   let searchInput;
+
+  useEffect(() => {
+    dispatch(getFilms);
+  }, [dispatch]);
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -133,11 +101,6 @@ const Main = () => {
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -157,11 +120,18 @@ const Main = () => {
       title: 'Stars',
       dataIndex: 'stars',
       key: 'stars',
-      ...getColumnSearchProps('name'),
     },
   ];
 
-  return <Table columns={columns} dataSource={data} tableLayout={'fixed'} pagination={false}/>;
+  return (
+    <Table
+    loading={loading}
+    columns={columns}
+    dataSource={dumpData}
+    tableLayout={'fixed'}
+    pagination={false}
+    />
+  );
 };
 
 export default Main;
