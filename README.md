@@ -1,4 +1,4 @@
-## Available Scripts
+## WebbyLab Test
 
 To start the project, you should run:
 
