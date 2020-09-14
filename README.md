@@ -1,6 +1,6 @@
 ## WebbyLab Test
 
-To start the project, you should run:
+To start the front-end part of this project, after cloning you should run:
 
 ### `npm install`
 
@@ -13,3 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console. I hope that there is no errors :)
+
+## Back-end part of this project
+
+[https://github.com/MentalG/webbylab-backend](WebbyLab-Backend)
