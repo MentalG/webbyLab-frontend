@@ -5,7 +5,7 @@ import { setModal, getFilms, addFilm } from '../../store/actions/films';
 import ModalWindow from '../ModalWindow';
 import DragNDrop from '../DragNDrop';
 import AddForm from '../AddForm';
-import { Button, Form } from 'antd';
+import { Button, Form, notification } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import './styles.scss';
 
@@ -23,17 +23,30 @@ const Menu = () => {
 
   const submitHandler = (target, bool) => {
     if (bool) {
-      const values = form.getFieldsValue();
+      form
+        .validateFields()
+        .then((values) => {
+          dispatch(addFilm(values));
+          dispatch(getFilms);
+          form.resetFields();
+          dispatch(setModal(target, false));
+        })
+        .catch((error) => {
+          const errorsArray = [];
 
-      dispatch(addFilm(values));
-      dispatch(getFilms);
-      form.resetFields();
+          error.errorFields.map((item) => errorsArray.push(item.errors[0]));
+
+          notification.error({
+            message: 'Error',
+            description: `${errorsArray.map((item) => item)}`,
+          });
+        });
     } else {
       form.resetFields();
+      dispatch(setModal(target, false));
     }
 
     dispatch(getFilms);
-    dispatch(setModal(target, false));
   };
 
   return (
@@ -53,7 +66,7 @@ const Menu = () => {
         onCancel={() => submitHandler('isAddFilmOpen', false)}
         isVisible={isAddFilmOpen}
       >
-        <AddForm form={form}/>
+        <AddForm form={form} />
       </ModalWindow>
       <Button
         type={type}

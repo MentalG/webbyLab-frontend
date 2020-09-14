@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Select, Space } from 'antd';
+import { Button, Form, Input, Select, Space, InputNumber } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const AddForm = ({ form }) => {
@@ -19,7 +19,7 @@ const AddForm = ({ form }) => {
         label='Release Year'
         rules={[{ required: true }]}
       >
-        <Input />
+        <InputNumber min={1000} max={2020} />
       </Form.Item>
       <Form.Item name='format' label='Format' rules={[{ required: true }]}>
         <Select
