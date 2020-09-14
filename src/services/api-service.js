@@ -31,4 +31,18 @@ export default class ApiService {
       response.json()
     );
   };
+
+  deleteFilm = (params) => {
+    const requestOptions = {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    };
+
+    fetch(this._apiBase + 'films', requestOptions).then((response) =>
+      response.json()
+    );
+  }
 }

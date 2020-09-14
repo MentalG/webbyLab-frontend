@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilmsData } from '../../store/selectors/films';
-import { getFilms } from '../../store/actions/films';
+import { getFilms, eraseFilm } from '../../store/actions/films';
 import { dumpFilm } from '../../utils/dumpFilms';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -30,6 +30,13 @@ const Main = () => {
     clearFilters();
     setSearchText('');
   };
+
+  const handleDelete = (e, record) => {
+    const { id } = record
+
+    dispatch(eraseFilm(id))
+    dispatch(getFilms)
+  }
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -105,6 +112,7 @@ const Main = () => {
       dataIndex: 'name',
       key: 'name',
       ...getColumnSearchProps('name'),
+      sorter: (a, b) => a.name !== b.name ? a.name < b.name ? -1 : 1 : 0
     },
     {
       title: 'Release date',
@@ -120,6 +128,12 @@ const Main = () => {
       title: 'Stars',
       dataIndex: 'stars',
       key: 'stars',
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: record => <a href='/' onClick={(e) => handleDelete(e, record)}>Delete</a>,
     },
   ];
 

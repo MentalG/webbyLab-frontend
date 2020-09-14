@@ -19,5 +19,5 @@ export default createReducer(initialState, {
   [modalChange] : (state, { payload }) => {
     const {target, isOpen} = payload
     state[target] = isOpen;
-  }
+  },
 });
