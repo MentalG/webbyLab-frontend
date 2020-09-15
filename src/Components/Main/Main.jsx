@@ -143,7 +143,6 @@ const Main = () => {
     columns={columns}
     dataSource={dumpData}
     tableLayout={'fixed'}
-    pagination={false}
     />
   );
 };
