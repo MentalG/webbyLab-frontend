@@ -19,7 +19,7 @@ const AddForm = ({ form }) => {
         label='Release Year'
         rules={[{ required: true }]}
       >
-        <InputNumber min={1000} max={2020} />
+        <InputNumber min={1850} max={2020} />
       </Form.Item>
       <Form.Item name='format' label='Format' rules={[{ required: true }]}>
         <Select
