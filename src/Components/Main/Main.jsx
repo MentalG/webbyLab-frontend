@@ -128,6 +128,7 @@ const Main = () => {
       title: 'Stars',
       dataIndex: 'stars',
       key: 'stars',
+      ...getColumnSearchProps('stars'),
     },
     {
       title: 'Action',

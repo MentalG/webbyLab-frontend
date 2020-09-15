@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const dumpFilm = data => {
     return {
         id: data._id,
@@ -7,6 +5,6 @@ export const dumpFilm = data => {
         name: data.Title,
         releaseDate: data["Release Year"],
         format: data.Format,
-        stars: data.Stars[0].split(',').map((star) => <span className='star' key={star}> {star} </span>),
+        stars: data.Stars,
     }
 }
