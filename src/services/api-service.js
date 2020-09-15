@@ -25,8 +25,6 @@ export default class ApiService {
       body: JSON.stringify(params),
     };
 
-    // console.log(this._apiBase + 'films/');
-
     fetch(this._apiBase + 'films', requestOptions).then((response) =>
       response.json()
     );

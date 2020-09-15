@@ -22,11 +22,13 @@ const Menu = () => {
   };
 
   const submitHandler = (target, bool) => {
+    const film = form.getFieldValue();
+
     if (bool) {
       form
         .validateFields()
         .then((values) => {
-          dispatch(addFilm(values));
+          dispatch(addFilm(film));
           dispatch(getFilms);
           form.resetFields();
           dispatch(setModal(target, false));

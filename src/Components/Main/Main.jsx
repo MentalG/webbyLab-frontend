@@ -40,6 +40,7 @@ const Main = () => {
 
   const confirm = (record) => {
     const { name } = record;
+    
     handleDelete(record);
     message.success(`${name} was deleted`);
   };
@@ -149,7 +150,7 @@ const Main = () => {
             okText='Yes'
             cancelText='No'
           >
-            <a href>Delete</a>
+            <a href='/'>Delete</a>
           </Popconfirm>
         );
       },

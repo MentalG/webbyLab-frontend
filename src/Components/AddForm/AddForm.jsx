@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Form, Input, Select, Space, InputNumber } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -8,6 +8,9 @@ const AddForm = ({ form }) => {
     wrapperCol: { span: 14 },
   };
   const { Option } = Select;
+  const [allFields, setAllFields] = useState({});
+
+  if (Object.keys(allFields).length <= 0) form.setFieldsValue({'stars': [undefined]});
 
   return (
     <Form {...layout} form={form} name='control-hooks'>
@@ -49,6 +52,7 @@ const AddForm = ({ form }) => {
           ) : null;
         }}
       </Form.Item>
+      {/* {renderFormItems} */}
       <Form.List name='stars'>
         {(fields, { add, remove }) => {
           return (
@@ -89,6 +93,7 @@ const AddForm = ({ form }) => {
                     type='dashed'
                     onClick={() => {
                       add();
+                      setAllFields(fields)
                     }}
                     block
                   >
