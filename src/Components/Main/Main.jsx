@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFilmsData } from '../../store/selectors/films';
 import { getFilms, eraseFilm } from '../../store/actions/films';
 import { dumpFilm } from '../../utils/dumpFilms';
-import { Table, Input, Button, Space } from 'antd';
+import { Table, Input, Button, Space, Popconfirm, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import './styles.scss'
+import './styles.scss';
 
 const Main = () => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const { films, loading } = useSelector(getFilmsData);
-  const dumpData = films.map(item => dumpFilm(item));
+  const dumpData = films.map((item) => dumpFilm(item));
   let searchInput;
 
   useEffect(() => {
@@ -31,12 +31,18 @@ const Main = () => {
     setSearchText('');
   };
 
-  const handleDelete = (e, record) => {
-    const { id } = record
+  const handleDelete = (record) => {
+    const { id } = record;
 
-    dispatch(eraseFilm(id))
-    dispatch(getFilms)
-  }
+    dispatch(eraseFilm(id));
+    dispatch(getFilms);
+  };
+
+  const confirm = (record) => {
+    const { name } = record;
+    handleDelete(record);
+    message.success(`${name} was deleted`);
+  };
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -112,7 +118,8 @@ const Main = () => {
       dataIndex: 'name',
       key: 'name',
       ...getColumnSearchProps('name'),
-      sorter: (a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      sorter: (a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
     },
     {
       title: 'Release date',
@@ -134,16 +141,27 @@ const Main = () => {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: record => <a href='/' onClick={(e) => handleDelete(e, record)}>Delete</a>,
+      render: (record) => {
+        return (
+          <Popconfirm
+            title='Are you sure delete this task?'
+            onConfirm={() => confirm(record)}
+            okText='Yes'
+            cancelText='No'
+          >
+            <a href>Delete</a>
+          </Popconfirm>
+        );
+      },
     },
   ];
 
   return (
     <Table
-    loading={loading}
-    columns={columns}
-    dataSource={dumpData}
-    tableLayout={'fixed'}
+      loading={loading}
+      columns={columns}
+      dataSource={dumpData}
+      tableLayout={'fixed'}
     />
   );
 };
