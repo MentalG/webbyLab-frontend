@@ -112,7 +112,7 @@ const Main = () => {
       dataIndex: 'name',
       key: 'name',
       ...getColumnSearchProps('name'),
-      sorter: (a, b) => a.name !== b.name ? a.name < b.name ? -1 : 1 : 0
+      sorter: (a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())
     },
     {
       title: 'Release date',
